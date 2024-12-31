@@ -39,7 +39,6 @@ class HtmlEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb) {
       return HtmlEditorWidget(
         key: key,
         controller: controller,
@@ -49,9 +48,5 @@ class HtmlEditor extends StatelessWidget {
         htmlToolbarOptions: htmlToolbarOptions,
         otherOptions: otherOptions,
       );
-    } else {
-      return Text(
-          'Flutter Web environment detected, please make sure you are importing package:html_editor_enhanced/html_editor.dart');
-    }
   }
 }

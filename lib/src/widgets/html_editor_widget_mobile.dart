@@ -72,7 +72,7 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
       filePath = widget.htmlEditorOptions.filePath!;
     } else if (widget.plugins.isEmpty) {
       filePath =
-          'packages/html_editor_enhanced/assets/summernote-no-plugins.html';
+          'packages/html_editor_enhanced/assets/summernote.html';
     } else {
       filePath = 'packages/html_editor_enhanced/assets/summernote.html';
     }
@@ -365,11 +365,42 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                       summernoteToolbar = summernoteToolbar + '],';
                       summernoteCallbacks = summernoteCallbacks + '}';
                       await controller.evaluateJavascript(source: """
+                          var PrintButton = function (context) {
+                           var ui = \$.summernote.ui;
+                          
+                            // create button
+                            var button = ui.button({
+                              contents: '<i class="fa fa-print"/> 🖨️',
+                              tooltip: 'print',
+                              click: function () {
+                                // invoke print.
+                                \$("#print-div").html(\$('#summernote-2').summernote('code'));
+                                window.print();
+                              }
+                            });
+                          
+                            return button.render(); // return button as jquery object
+                          }
+                          
                           \$('#summernote-2').summernote({
+                               toolbar: [
+                                    ['style', ['style']],
+                                    ['lastcolor', ['color']],
+                                    ['font', ['bold','italic', 'underline','strikethrough', 'backcolor','forecolor']],
+                                    ['size', ['fontsize','superscript','subscript']],
+                                    ['fontname', ['fontname', 'clear']],
+                                    ['para', ['ul', 'ol', 'paragraph', 'height']],
+                                    ['insert', ['hr','link', 'picture', 'table']],
+                                    ['view', ['fullscreen', 'codeview','undo', 'redo','help']],
+                                    ['mybutton', ['print']],
+                              ],
+                              buttons: {
+                                print: PrintButton
+                              },
+                              lang: 'fr-FR',
                               placeholder: "${widget.htmlEditorOptions.hint ?? ""}",
                               tabsize: 2,
                               height: ${widget.otherOptions.height - (toolbarKey.currentContext?.size?.height ?? 0)},
-                              toolbar: $summernoteToolbar
                               disableGrammar: false,
                               spellCheck: ${widget.htmlEditorOptions.spellCheck},
                               maximumFileSize: $maximumFileSize,
@@ -496,12 +527,7 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                           }
                         });
                       }
-                      widget.controller.editorController!.addJavaScriptHandler(
-                          handlerName: 'totalChars',
-                          callback: (keyCode) {
-                            widget.controller.characterCount =
-                                keyCode.first as int;
-                          });
+
                       //disable editor if necessary
                       if (widget.htmlEditorOptions.disabled &&
                           !callbacksInitialized) {

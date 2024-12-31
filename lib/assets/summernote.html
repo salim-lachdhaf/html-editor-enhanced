@@ -1,31 +1,45 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="Flutter Summernote HTML Editor">
-  <meta name="author" content="tneotia">
-  <title>Summernote Text Editor HTML</title>
-  <script src="jquery.min.js"></script>
-  <!--summernote js and css-->
-  <link href="summernote-lite.min.css" rel="stylesheet">
-  <script src="summernote-lite.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="Flutter Summernote HTML Editor">
+    <meta name="author" content="tneotia">
+    <title>Summernote Text Editor HTML</title>
+    <script src="jquery.min.js"></script>
+    <!--summernote js and css-->
+    <link href="summernote-lite.min.css" rel="stylesheet">
+    <script src="summernote-lite.min.js"></script>
+    <script src="lang/summernote-fr-FR.min.js"></script>
+    <!--summernote at mention plugin-->
+    <script src="plugins/summernote-at-mention/summernote-at-mention.js"></script>
 </head>
 <body>
+<div id="print-div" style="display:none;"></div>
 <div id="summernote-2"></div>
-<!--summernote at mention plugin-->
-<script src="plugins/summernote-at-mention/summernote-at-mention.js"></script>
+
 <!--minor styling to improve editor design-->
 <style>
-  body {
-      display: block;
-      margin: 0px;
-  }
-  .note-editor.note-airframe, .note-editor.note-frame {
-      border: 0px solid #a9a9a9;
-  }
-  .note-frame {
-      border-radius: 0px;
-  }
+
+   @media print {
+        @page {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+       body{
+           visibility: hidden !important ;
+       }
+
+       #print-div {
+           visibility: visible !important;
+           display: block !important;
+           position: absolute !important;
+           height: 100% !important;
+           left: 0 !important;
+           top: 0 !important;
+       }
+   }
+
 </style>
 </body>
 </html>
